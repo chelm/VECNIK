@@ -55,7 +55,7 @@
                //ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
                for(var i=1; i < c.length; ++i) {
                  ctx.shadowBlur = 10;
-                 ctx.shadowColor = "rgba(150, 0, 0, 1)";
+                 ctx.shadowColor = "rgba(150, 150, 0, 1)";
                   sketchLine(ctx, c[i-1], c[i]);
                   var p0 = c[i-1];
                   var p = c[i];
@@ -101,7 +101,7 @@
     function initMap() {
         VECNIK.Carto.init(function(carto) {
             VECNIK.Carto.compile(
-              "#world { line-width: 2; line-color: #f00; [TYPEY='test']{ line-width: 2; } [ZOOM = 0]{ line-width: 2; } }"
+              "#world { line-width: 1; line-color: #f00; [TYPEY='test']{ line-width: 2; } [ZOOM = 0]{ line-width: 1; } }"
               , function() {});
         });
         var stat = new Stats();
@@ -111,12 +111,6 @@
         var subdomains = [ '', 'a.', 'b.', 'c.' ];
         var provider = new MM.TemplatedLayer(template, subdomains);
 
-        VECNIK.settings.set({
-           ENABLE_CLIPPING: true, 
-           ENABLE_SIMPLIFY: true,
-           ENABLE_FIXING: true,
-           ENABLE_SNAPPING: true, 
-        });
         var dataSource = new VECNIK.TileJSON.API({
            base_url: 'http://polymaps.appspot.com/',
            layer: 'state'
@@ -129,11 +123,11 @@
                 return '1';
             },
             'polygon-fill': function(data) { 
-                return "rgba(200, 200, 200, 0.8)";
+                return "rgba(0, 0, 0, 0.8)";
             }
         });
 
-        var vector_layer = new VECNIK.MM.CanvasProvider(dataSource, shader, new SketchRender());
+        var vector_layer = new VECNIK.MM.CanvasProvider(dataSource); //, //shader, new SketchRender());
         fg = new MM.Layer(vector_layer);
 
         map = new MM.Map(document.getElementById('map'), [provider,  fg])
